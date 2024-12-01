@@ -21,10 +21,10 @@ jobs:
       # Step 2. Login to Dockerhub
     - name: Login to DockerHub
       uses: docker/login-action@v3
-      run: echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      #with:
-       # username: ${{ secrets.DOCKERHUB_PASSWD }}
-       # password: ${{ secrets.DOCKERHUB_USERNAME }}
+      #run: echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+      with:
+        username: ${{ secrets. DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWD }}
 
       # Step 3. Build and push Docker image
     - name: Build and push Docker image
