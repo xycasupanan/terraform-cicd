@@ -30,8 +30,8 @@ jobs:
       working-directory: ./app
       run: |
         docker build -t app-image .
-        docker tag app-image crsxyrus/app-image:latest
-        docker push crsxyrus/app-image:latest
+        docker tag app-image crisxyrus/app-image:latest
+        docker push crisxyrus/app-image:latest
 
       
      #- name: Install SSH Key
