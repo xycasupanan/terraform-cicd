@@ -2,9 +2,9 @@
 name: Deploy Docker Image to EC2
 
 on: workflow_dispatch
-  push:
-    branches:
-      - dev
+  #push:
+    #branches:
+      #- dev
 
 jobs:
   deploy:
