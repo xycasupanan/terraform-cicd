@@ -52,7 +52,8 @@ jobs:
     # Step 7. Debug Output
     - name: Debug Output
       run: | 
-        echo "Raw output: $(terraform output -raw public_ip | awk '{print $1 }')"
+        terraform output -raw public_ip | awk '{print $1 }'
+      # echo "Raw output: $(terraform output -raw public_ip | awk '{print $1 }')"
       working-directory: ${{ secrets.TERRAFORM_DIR }}
 
       # Step 8. Apply Terraform
