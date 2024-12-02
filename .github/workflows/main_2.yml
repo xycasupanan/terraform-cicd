@@ -15,32 +15,38 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-      # Step 2: Set up AWS credentials
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v2
+      # Step 2. Login to Dockerhub
+    - name: Login to DockerHub
+      uses: docker/login-action@v3
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1  # Update to your AWS region
+        username: ${{ secrets. DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWD }}
 
+      # Step 3. Build and push Docker image
+    - name: Build and push Docker image
+      working-directory: ./app
+      run: |
+        docker build -t app-image .
+        docker tag app-image crisxyrus/app-image:latest
+        docker push crisxyrus/app-image:latest
 
-      # step 3. Set up Terraform
+      # step 4. Set up Terraform
     - name: Set up Terraform
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: 1.5.0
       
-    # Step 4: Initialize Terraform
+      # Step 6: Initialize Terraform
     - name: Terraform Init
       run: terraform init
       working-directory: ${{ secrets.TERRAFORM_DIR }}
 
-    # Step 5: Apply Terraform
+    # Step 7: Apply Terraform
     - name: Terraform Apply
       run: terraform apply -auto-approve
       working-directory: ${{ secrets.TERRAFORM_DIR }}
 
-    # Step 6: Extract EC2 Public IP from Terraform Output
+    # Step 8: Extract EC2 Public IP from Terraform Output
     - name: Get EC2 Public IP
       id: ec2-ip
       run: |
@@ -51,7 +57,7 @@ jobs:
 
 
       # step 4. Deploy Docker image to ec2
-     # - name: Deploy Docker image to EC2
+   # - name: Deploy Docker image to EC2
      # run: |
      #   ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_INSTANCE_IP }} << 'EOF'
      #   docker pull crisxyrus/app-image:latest
