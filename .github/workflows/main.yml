@@ -51,8 +51,9 @@ jobs:
     - name: Debug Output
       run: | 
         echo "Raw output: $(terraform output -raw public_ip)"
+      working-directory: ${{ secrets.TERRAFORM_DIR }}
 
-      # Step 7. Apply Terraform
+      # Step 8. Apply Terraform
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
       working-directory: ${{ secrets.TERRAFORM_DIR }}
