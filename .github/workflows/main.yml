@@ -41,12 +41,12 @@ jobs:
       working-directory: ${{ secrets.TERRAFORM_DIR }}
 
     # Step 6: Extract EC2 Public IP from Terraform Output
-   # - name: Get EC2 Public IP
-   #   id: ec2-ip
-   #   run: |
-   #        echo "EC2_PUBLIC_IP=$(terraform output -raw public_ip | awk '{ print $1 }')" >> $GITHUB_ENV
+    - name: Get EC2 Public IP
+      id: ec2-ip
+      run: |
+           echo "EC2_PUBLIC_IP=$(terraform output -raw public_ip | awk '{ print $1 }')" >> $GITHUB_ENV
    #       echo "EC2_PUBLIC_IP=$(terraform output -raw public_ip)" >> $GITHUB_ENV
-   #   working-directory: ${{ secrets.TERRAFORM_DIR }}
+      working-directory: ${{ secrets.TERRAFORM_DIR }}
 
 
     # Step 7. Debug Output
