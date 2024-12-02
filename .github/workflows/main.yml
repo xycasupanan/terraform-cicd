@@ -44,7 +44,8 @@ jobs:
     - name: Get EC2 Public IP
       id: ec2-ip
       run: |
-           echo "EC2_PUBLIC_IP=$(terraform output -raw public_ip | awk '{ print $1 }')" >> $GITHUB_ENV
+           terraform output -raw public_ip > ec2_public_ip.txt
+           echo "EC2_PUBLIC_IP=$(cat ec2_public_ip.txt)" >> $GITHUB_ENV
    #       echo "EC2_PUBLIC_IP=$(terraform output -raw public_ip)" >> $GITHUB_ENV
       working-directory: ${{ secrets.TERRAFORM_DIR }}
 
