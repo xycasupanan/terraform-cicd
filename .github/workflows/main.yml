@@ -42,9 +42,14 @@ jobs:
       working-directory: ${{ secrets.TERRAFORM_DIR }}
 
     # Step 6: Extract EC2 Public IP from Terraform Output
-    #- name: Get EC2 Public IP
-    #  id: ec2-ip
-    #  run: |
+    - name: Get EC2 Public IP
+      id: ec2-ip
+      run: |
+        EC2_PUBLIC_IP=$(terraform output -raw ec2_public_ip 2>/dev/null || echo "")
+        echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
+      working-directory: ${{ secrets.TERRAFORM_DIR }}
+
+
     #      terraform output -raw public_ip > ec2_public_ip.txt
     #      echo "EC2_PUBLIC_IP=$(cat ec2_public_ip.txt | awk '{ print $1 }')" >> $GITHUB_ENV
     #      echo "EC2_PUBLIC_IP=$(terraform output -raw public_ip)" >> $GITHUB_ENV
@@ -59,21 +64,12 @@ jobs:
    #     echo "Raw output: $(terraform output -raw public_ip | awk '{print $1 }')"
    #   working-directory: ${{ secrets.TERRAFORM_DIR }}
 
-    # Step 7. Extract EC2 Public IP from Terraform Output
-    - name: Capture Terraform Outputs
-      id: ec2-ip
-      run: |
-        EC2_PUBLIC_IP=$(terraform output -raw ec2_public_ip 2>/dev/null || echo "")
-        EC2_PRIVATE_KEY=$(terraform output -raw ec2_private_ip 2>/dev/null || echo "")
-     # Append outputs to GitHub environment
-        echo "EC2_PUBLIC_IP=$EC2_PUBLIC_IP" >> $GITHUB_ENV
-        echo "EC2_PRIVATE_KEY=$EC2_PRIVATE_KEY" >> $GITHUB_ENV
+  
 
       # Step 8. Apply Terraform
     - name: Terraform Destroy
       run: terraform destroy -auto-approve
       working-directory: ${{ secrets.TERRAFORM_DIR }}
-
 
 
       # step 4. Deploy Docker image to ec2
