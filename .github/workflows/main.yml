@@ -66,14 +66,9 @@ jobs:
             # Login to Docker Hub
             echo "Logging in to Docker Hub..."
             echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u "${{ secrets. DOCKERHUB_USERNAME }}" --password-stdin 
-              if [ $? -eq 0 ]; then
-               echo "Docker login successful!"
-              else
-               echo "Docker login failed. Please check your credentials."
-               exit 1
-              fi
+            sudo docker pull crisxyrus/app-image:latest
         EOF    
-      #        sudo docker pull crisxyrus/app-image:latest
+      #        
 
           # Stop and remove any existing container with the same name
       #    if [ "\$(sudo docker ps -aq -f name=$crisxyrus/app-image:latest)" ]; then
