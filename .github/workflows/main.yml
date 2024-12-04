@@ -62,12 +62,12 @@ jobs:
               sudo systemctl start docker
               sudo systemctl enable docker
           fi
+        
+
+          echo "Logging in to Docker Hub..."
+          echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u "${{ secrets. DOCKERHUB_USERNAME }}" --password-stdin 
+          sudo docker pull crisxyrus/app-image
         EOF
-               
-      # echo "Logging in to Docker Hub..."
-      # echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u "${{ secrets. DOCKERHUB_USERNAME }}" --password-stdin 
-      # sudo docker pull crisxyrus/app-image
-       
       #        
 
           # Stop and remove any existing container with the same name
