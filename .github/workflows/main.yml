@@ -67,7 +67,7 @@ jobs:
             echo "Logging in to Docker Hub..."
             echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u "${{ secrets. DOCKERHUB_USERNAME }}" --password-stdin 
             sudo docker pull crisxyrus/app-image:latest
-        EOF    
+          EOF    
       #        
 
           # Stop and remove any existing container with the same name
