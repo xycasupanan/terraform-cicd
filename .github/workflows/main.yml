@@ -50,7 +50,43 @@ jobs:
       working-directory: ${{ secrets.TERRAFORM_DIR }}
 
    
-     
+     # step 4. Deploy Docker image to ec2
+    - name: Deploy Docker image to EC2
+      run: |
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ${{ secrets.EC2_SSH_KEY}}
+        chmod 600 ${{ secrets.EC2_SSH_KEY }}
+        ssh -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ${{ secrets.HOST_USER }}@$EC2_PUBLIC_IP << 'EOF'
+          
+        if ! [ -x "$(command -v docker)" ]; then
+            sudo yum update -y
+            sudo yum install -y docker
+            sudo systemctl start docker
+            sudo systemctl enable docker
+          fi  
+
+        # Pull the Docker image
+          echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u ${{ secrets. DOCKERHUB_USERNAME }} --password-stdin
+          
+          if [ $? -eq 0 ]; then
+            echo "Docker login successful!"
+          else
+            echo "Docker login failed. Please check your credentials."
+            exit 1
+          fi      
+      
+      #        sudo docker pull crisxyrus/app-image:latest
+
+          # Stop and remove any existing container with the same name
+      #    if [ "\$(sudo docker ps -aq -f name=$crisxyrus/app-image:latest)" ]; then
+      #      sudo docker stop crisxyrus/app-image:latest
+      #      sudo docker rm crisxyrus/app-image:latest
+      #    fi
+
+          # Run the Docker container
+      #    sudo docker run -d --name test-app crisxyrus/app-image:latest
+      #  EOF
+
+      #    echo "Deployment completed successfully!"
   
        
 
