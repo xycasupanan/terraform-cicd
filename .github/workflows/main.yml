@@ -62,7 +62,17 @@ jobs:
               sudo systemctl start docker
               sudo systemctl enable docker
           fi
-        EOF
+        
+            # Login to Docker Hub
+            echo "Logging in to Docker Hub..."
+            echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u "${{ secrets. DOCKERHUB_USERNAME }}" --password-stdin 
+            if [ $? -eq 0 ]; then
+               echo "Docker login successful!"
+            else
+               echo "Docker login failed. Please check your credentials."
+               exit 1
+            fi
+        EOF    
       #        sudo docker pull crisxyrus/app-image:latest
 
           # Stop and remove any existing container with the same name
@@ -73,7 +83,7 @@ jobs:
 
           # Run the Docker container
       #    sudo docker run -d --name test-app crisxyrus/app-image:latest
-      
+      #    EOF
 
       #    echo "Deployment completed successfully!"
   
