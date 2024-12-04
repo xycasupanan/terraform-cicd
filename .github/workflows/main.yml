@@ -63,9 +63,9 @@ jobs:
               sudo systemctl enable docker
           fi
           
-        echo "Logging in to Docker Hub..."
-        echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u "${{ secrets. DOCKERHUB_USERNAME }}" --password-stdin 
-        sudo docker pull crisxyrus/app-image
+      # echo "Logging in to Docker Hub..."
+      # echo "${{ secrets.DOCKERHUB_PASSWD }}" | docker login -u "${{ secrets. DOCKERHUB_USERNAME }}" --password-stdin 
+      # sudo docker pull crisxyrus/app-image
           EOF    
       #        
 
